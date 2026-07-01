@@ -4,6 +4,25 @@
 ![AWS](https://img.shields.io/badge/AWS-Multi--AZ-FF9900?logo=amazon-aws)
 ![Status](https://img.shields.io/badge/Status-Active%20Development-brightgreen)
 
+## Infrastructure Cost Notice
+
+This project deploys real AWS infrastructure. To avoid ongoing charges
+during portfolio review, infrastructure is not permanently running.
+
+**To deploy:**
+```bash
+terraform init
+terraform plan -var-file=terraform.tfvars
+terraform apply -var-file=terraform.tfvars
+```
+
+**To destroy after reviewing:**
+```bash
+terraform destroy -var-file=terraform.tfvars
+```
+
+**Estimated monthly cost if running 24/7:** ~$70/month (Phase 1+2)
+
 ## Overview
 Production-grade, highly available AWS infrastructure built entirely
 with Terraform. Designed to eliminate single points of failure across
