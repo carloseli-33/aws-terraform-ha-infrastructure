@@ -96,3 +96,14 @@ output "site_url" {
   description = "Your application URL"
   value       = var.domain_name != "" ? "https://${var.domain_name}" : module.cloudfront.cloudfront_url
 }
+
+
+output "cloudwatch_dashboard_url" {
+  description = "Direct link to the CloudWatch dashboard"
+  value       = module.monitoring.dashboard_url
+}
+
+output "terraform_policy_arn" {
+  description = "Least-privilege IAM policy ARN"
+  value       = module.iam_hardening.policy_arn
+}

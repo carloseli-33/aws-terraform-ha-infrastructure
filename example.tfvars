@@ -40,7 +40,6 @@ assets_lifecycle_days    = 90
 
 
 # Phase 4 — Edge & DNS
-domain_name            = ""        # e.g. myapp.com
 subdomain              = "www"
 cloudfront_price_class = "PriceClass_100"
 cloudfront_default_ttl = 86400
