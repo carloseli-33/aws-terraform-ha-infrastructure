@@ -166,3 +166,38 @@ variable "assets_lifecycle_days" {
   type        = number
   default     = 90
 }
+
+
+# ─── PHASE 4 — EDGE & DNS VARIABLES ──────────────────────────────────
+
+# ─── PHASE 4 — EDGE & DNS VARIABLES ──────────────────────────────────
+
+variable "subdomain" {
+  description = "Subdomain prefix (e.g. 'www' gives www.myapp.com)"
+  type        = string
+  default     = "www"
+}
+
+variable "cloudfront_price_class" {
+  description = "CloudFront price class — controls which edge locations are used"
+  type        = string
+  default     = "PriceClass_100"
+}
+
+variable "cloudfront_default_ttl" {
+  description = "Default cache TTL in seconds"
+  type        = number
+  default     = 86400
+}
+
+variable "waf_rate_limit" {
+  description = "Max requests per 5 minutes per IP before WAF blocks"
+  type        = number
+  default     = 2000
+}
+
+variable "enable_waf" {
+  description = "Whether to attach WAF WebACL to CloudFront"
+  type        = bool
+  default     = true
+}
