@@ -38,7 +38,7 @@ every layer of the stack.
 ```
 
 ## Phases
-- [ ] Phase 1 — VPC Foundation + Remote State Backend
+- [x] Phase 1 — VPC Foundation + Remote State Backend
 - [ ] Phase 2 — Compute (ALB + ASG)
 - [ ] Phase 3 — Data Layer (RDS + ElastiCache + S3)
 - [ ] Phase 4 — Edge & DNS (CloudFront + Route 53)
