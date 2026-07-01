@@ -10,6 +10,7 @@ This project deploys real AWS infrastructure. To avoid ongoing charges
 during portfolio review, infrastructure is not permanently running.
 
 **To deploy:**
+
 ```bash
 terraform init
 terraform plan -var-file=terraform.tfvars
@@ -17,6 +18,7 @@ terraform apply -var-file=terraform.tfvars
 ```
 
 **To destroy after reviewing:**
+
 ```bash
 terraform destroy -var-file=terraform.tfvars
 ```
@@ -24,11 +26,13 @@ terraform destroy -var-file=terraform.tfvars
 **Estimated monthly cost if running 24/7:** ~$70/month (Phase 1+2)
 
 ## Overview
+
 Production-grade, highly available AWS infrastructure built entirely
 with Terraform. Designed to eliminate single points of failure across
 every layer of the stack.
 
 ## Architecture
+
 - **Networking**: Multi-AZ VPC (3 AZs), public/private subnets, NAT Gateways
 - **Compute**: Application Load Balancer + Auto Scaling Group (EC2)
 - **Database**: RDS Aurora MySQL Multi-AZ cluster with read replicas
@@ -39,6 +43,7 @@ every layer of the stack.
 - **Observability**: CloudWatch dashboards, alarms, Auto Scaling policies
 
 ## Project Structure
+
 ```
 .
 ├── environments/       # Per-environment variable files
@@ -57,9 +62,9 @@ every layer of the stack.
 ```
 
 ## Phases
+
 - [x] Phase 1 — VPC Foundation + Remote State Backend
-- [ ] Phase 2 — Compute (ALB + ASG)
+- [x] Phase 2 — Compute (ALB + ASG + Security Groups + ACM)
 - [ ] Phase 3 — Data Layer (RDS + ElastiCache + S3)
 - [ ] Phase 4 — Edge & DNS (CloudFront + Route 53)
 - [ ] Phase 5 — Observability & Security Hardening
-
