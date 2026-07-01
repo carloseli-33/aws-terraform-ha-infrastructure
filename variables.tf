@@ -62,3 +62,107 @@ variable "single_nat_gateway" {
   type        = bool
   default     = true
 }
+
+
+# ─── PHASE 2 — COMPUTE VARIABLES ─────────────────────────────────────
+
+variable "domain_name" {
+  description = "Your domain name for ACM certificate (e.g. example.com)"
+  type        = string
+  # If you don't have a domain yet, leave this empty and we'll use HTTP only
+  default = ""
+}
+
+variable "instance_type" {
+  description = "EC2 instance type for the Auto Scaling Group"
+  type        = string
+  default     = "t3.micro" # Free-tier eligible; change to t3.small for prod
+}
+
+variable "asg_min_size" {
+  description = "Minimum number of EC2 instances in the ASG"
+  type        = number
+  default     = 2 # Always >= 2 for HA (never run prod on a single instance)
+}
+
+variable "asg_max_size" {
+  description = "Maximum number of EC2 instances in the ASG"
+  type        = number
+  default     = 6
+}
+
+variable "asg_desired_capacity" {
+  description = "Initial desired count — ASG will scale from here"
+  type        = number
+  default     = 2
+}
+
+variable "health_check_path" {
+  description = "ALB target group health check path"
+  type        = string
+  default     = "/"
+}
+
+variable "cpu_target_value" {
+  description = "Target CPU % for Auto Scaling target tracking policy"
+  type        = number
+  default     = 60
+}
+
+variable "alert_email" {
+  description = "Email address for CloudWatch alarm SNS notifications"
+  type        = string
+  default     = ""
+}
+
+
+
+# ─── PHASE 3 — DATA LAYER VARIABLES ──────────────────────────────────
+
+variable "db_name" {
+  description = "Initial database name"
+  type        = string
+  default     = "appdb"
+}
+
+variable "db_master_username" {
+  description = "Master username for RDS Aurora cluster"
+  type        = string
+  default     = "admin"
+}
+
+variable "db_instance_class" {
+  description = "RDS instance class for Aurora cluster members"
+  type        = string
+  default     = "db.t3.medium"
+}
+
+variable "db_backup_retention_days" {
+  description = "Days to retain automated RDS backups"
+  type        = number
+  default     = 7
+}
+
+variable "redis_node_type" {
+  description = "ElastiCache Redis node type"
+  type        = string
+  default     = "cache.t3.micro"
+}
+
+variable "redis_num_cache_nodes" {
+  description = "Number of Redis cache nodes (min 2 for Multi-AZ)"
+  type        = number
+  default     = 2
+}
+
+variable "assets_bucket_name" {
+  description = "Name for the S3 static assets bucket (must be globally unique)"
+  type        = string
+  default     = "" # Will be auto-generated using account ID if empty
+}
+
+variable "assets_lifecycle_days" {
+  description = "Days before transitioning assets to S3 Standard-IA storage class"
+  type        = number
+  default     = 90
+}

@@ -13,3 +13,28 @@ database_subnet_cidrs = ["10.0.21.0/24", "10.0.22.0/24", "10.0.23.0/24"]
 
 enable_nat_gateway = true
 single_nat_gateway = true # Set false in prod for true HA
+
+
+# Append to example.tfvars
+
+# Phase 2 — Compute
+domain_name          = "" # e.g. myapp.example.com — leave empty to skip ACM
+instance_type        = "t3.micro"
+asg_min_size         = 2
+asg_max_size         = 6
+asg_desired_capacity = 2
+health_check_path    = "/"
+cpu_target_value     = 60
+alert_email          = "your@email.com"
+
+
+# Phase 3 — Data Layer
+db_name                  = "appdb"
+db_master_username       = "admin"
+db_instance_class        = "db.t3.medium"
+db_backup_retention_days = 7
+redis_node_type          = "cache.t3.micro"
+redis_num_cache_nodes    = 2
+assets_bucket_name       = "" # auto-generated
+assets_lifecycle_days    = 90
+
