@@ -65,6 +65,6 @@ every layer of the stack.
 
 - [x] Phase 1 — VPC Foundation + Remote State Backend
 - [x] Phase 2 — Compute (ALB + ASG + Security Groups + ACM)
-- [ ] Phase 3 — Data Layer (RDS + ElastiCache + S3)
-- [ ] Phase 4 — Edge & DNS (CloudFront + Route 53)
+- [x] Phase 3 — Data Layer (RDS + ElastiCache + S3)
+- [x] Phase 4 — Edge & DNS (CloudFront + Route 53)
 - [ ] Phase 5 — Observability & Security Hardening
