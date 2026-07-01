@@ -77,3 +77,22 @@ output "db_secret_arn" {
 }
 
 
+output "cloudfront_url" {
+  description = "CloudFront distribution URL"
+  value       = module.cloudfront.cloudfront_url
+}
+
+output "cloudfront_distribution_id" {
+  description = "CloudFront distribution ID — needed for cache invalidation"
+  value       = module.cloudfront.distribution_id
+}
+
+output "route53_name_servers" {
+  description = "Name servers to set at your domain registrar"
+  value       = var.domain_name != "" ? module.route53[0].name_servers : []
+}
+
+output "site_url" {
+  description = "Your application URL"
+  value       = var.domain_name != "" ? "https://${var.domain_name}" : module.cloudfront.cloudfront_url
+}

@@ -11,11 +11,9 @@ terraform {
       source  = "hashicorp/random"
       version = "~> 3.0"
     }
-
   }
 
   backend "s3" {
-    # Replace with your actual bucket name from the bootstrap script
     bucket         = "terraform-state-ha-project-565803477781"
     key            = "global/s3/terraform.tfstate"
     region         = "us-east-1"
@@ -26,6 +24,20 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
+
+  default_tags {
+    tags = {
+      Project     = var.project_name
+      Environment = var.environment
+      ManagedBy   = "Terraform"
+      Owner       = "Carlos"
+    }
+  }
+}
+
+provider "aws" {
+  alias  = "us_east_1"
+  region = "us-east-1"
 
   default_tags {
     tags = {

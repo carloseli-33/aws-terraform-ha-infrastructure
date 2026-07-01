@@ -137,3 +137,56 @@ module "s3_assets" {
   lifecycle_days = var.assets_lifecycle_days
 }
 
+
+# ─── PHASE 4: WAF ──────────────────────────────────────────────────────
+# WAF must be created in us-east-1 for CloudFront
+# The provider alias handles this automatically
+
+module "waf" {
+  source = "./modules/waf"
+  count  = var.enable_waf ? 1 : 0
+
+  providers = {
+    aws = aws.us_east_1
+  }
+
+  project_name = var.project_name
+  environment  = var.environment
+  rate_limit   = var.waf_rate_limit
+}
+
+# ─── PHASE 4: CLOUDFRONT ───────────────────────────────────────────────
+
+module "cloudfront" {
+  source = "./modules/cloudfront"
+
+  project_name              = var.project_name
+  environment               = var.environment
+  alb_dns_name              = module.alb.alb_dns_name
+  s3_bucket_regional_domain = module.s3_assets.bucket_regional_domain_name
+  s3_bucket_id              = module.s3_assets.bucket_name
+  price_class               = var.cloudfront_price_class
+  default_ttl               = var.cloudfront_default_ttl
+
+  # Only set aliases and cert if domain is configured
+  domain_aliases  = var.domain_name != "" ? [var.domain_name, "${var.subdomain}.${var.domain_name}"] : []
+  certificate_arn = var.domain_name != "" ? module.acm[0].certificate_arn : ""
+  web_acl_arn     = var.enable_waf ? module.waf[0].web_acl_arn : ""
+}
+
+# ─── PHASE 4: ROUTE 53 (conditional on domain) ─────────────────────────
+
+module "route53" {
+  source = "./modules/route53"
+  count  = var.domain_name != "" ? 1 : 0
+
+  project_name              = var.project_name
+  environment               = var.environment
+  domain_name               = var.domain_name
+  subdomain                 = var.subdomain
+  cloudfront_domain_name    = module.cloudfront.domain_name
+  cloudfront_hosted_zone_id = module.cloudfront.hosted_zone_id
+
+  acm_domain_validation_options = var.domain_name != "" ? module.acm[0].domain_validation_options : []
+}
+
