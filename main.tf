@@ -190,3 +190,42 @@ module "route53" {
   acm_domain_validation_options = var.domain_name != "" ? module.acm[0].domain_validation_options : []
 }
 
+
+# ─── PHASE 5: MONITORING DASHBOARD ────────────────────────────────────
+
+module "monitoring" {
+  source = "./modules/monitoring"
+
+  project_name               = var.project_name
+  environment                = var.environment
+  aws_region                 = var.aws_region
+  asg_name                   = module.asg.asg_name
+  alb_arn_suffix             = module.alb.alb_arn
+  target_group_arn_suffix    = module.alb.target_group_arn
+  rds_cluster_id             = module.rds.cluster_identifier
+  redis_cluster_id           = module.elasticache.replication_group_id
+  cloudfront_distribution_id = module.cloudfront.distribution_id
+  sns_topic_arn              = module.asg.sns_topic_arn
+}
+
+# ─── PHASE 5: IAM HARDENING ────────────────────────────────────────────
+
+module "iam_hardening" {
+  source = "./modules/iam-hardening"
+
+  project_name        = var.project_name
+  environment         = var.environment
+  terraform_user_name = "terraform-ha-project"
+}
+
+# ─── PHASE 5: BUDGETS ──────────────────────────────────────────────────
+
+module "budgets" {
+  source = "./modules/budgets"
+
+  project_name            = var.project_name
+  environment             = var.environment
+  monthly_budget_limit    = "50"
+  alert_email             = var.alert_email
+  alert_threshold_percent = 80
+}

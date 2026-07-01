@@ -201,3 +201,9 @@ variable "enable_waf" {
   type        = bool
   default     = true
 }
+
+variable "monthly_budget_limit" {
+  description = "Monthly AWS budget limit in USD"
+  type        = string
+  default     = "50"
+}
